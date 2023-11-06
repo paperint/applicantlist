@@ -1,7 +1,7 @@
 <script setup>
-import { defineProps, computed, ref } from "vue";
-import { useEventStore } from "../stores/event";
+import { defineProps, ref } from "vue";
 import { useApplicationStore } from "../stores/application";
+import useUtilityHook from "../Hook/useUtilityHook.js";
 
 defineProps({
   list: Array,
@@ -16,15 +16,7 @@ const key = ref([
 ]);
 
 const applicationStore = useApplicationStore();
-const eventStore = useEventStore();
-
-const firstLetterUppercase = (name) => {
-  const splitName = name.split("_");
-  const newName = splitName
-    .map((item) => item.charAt(0).toUpperCase() + item.slice(1))
-    .join(" ");
-  return newName;
-};
+const { firstLetterUppercase, truncateText, formatNumber } = useUtilityHook();
 
 const handleView = (id) => {
   applicationStore.viewByPerson(id, "view");
@@ -58,9 +50,9 @@ const handleDelete = (id) => {
           <th>{{ index + 1 }}</th>
           <td>{{ firstLetterUppercase(item.firstname) }}</td>
           <td>{{ firstLetterUppercase(item.lastname) }}</td>
-          <td>{{ item.address }}</td>
-          <td>{{ eventStore.formatNumber(item.expected_salary) }}</td>
-          <td>{{ item.other }}</td>
+          <td>{{ truncateText(item.address, 20) }}</td>
+          <td>{{ formatNumber(item.expected_salary) }}</td>
+          <td>{{ truncateText(item.other, 10) }}</td>
           <td>
             <button
               class="btn btn-active btn-secondary btn-sm hover:bg-primary"

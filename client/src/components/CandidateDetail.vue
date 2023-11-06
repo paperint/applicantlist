@@ -1,9 +1,9 @@
 <script setup>
 import { useApplicationStore } from "../stores/application";
-import { useEventStore } from "../stores/event";
+import useUtilityHook from "../Hook/useUtilityHook";
 
 const applicationStore = useApplicationStore();
-const eventStore = useEventStore();
+const { formatNumber } = useUtilityHook();
 </script>
 
 <template>
@@ -23,7 +23,7 @@ const eventStore = useEventStore();
     <div>
       <h4 class="font-bold tracking-wider">Expected Salary:</h4>
       <p class="font-light">
-        {{ eventStore.formatNumber(applicationStore.person.expected_salary) }}
+        {{ formatNumber(applicationStore.person.expected_salary) }}
       </p>
     </div>
     <div class="font-bold tracking-wider">

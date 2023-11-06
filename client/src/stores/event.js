@@ -21,24 +21,5 @@ export const useEventStore = defineStore("event", {
       this.pageAction = "edit";
       this.modalOpen = true;
     },
-    formatNumber(amount) {
-      if (amount == null) {
-        return "Invalid amount";
-      }
-
-      const newAmount =
-        typeof amount === "string" ? parseFloat(amount) : amount;
-
-      if (isNaN(newAmount)) {
-        return "Invalid input";
-      }
-
-      const formattedAmount = newAmount.toLocaleString("en-US", {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
-      });
-
-      return formattedAmount;
-    },
   },
 });
