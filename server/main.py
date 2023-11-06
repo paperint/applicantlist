@@ -42,10 +42,12 @@ class Applicant(BaseModel):
 async def root():
     return {"message": "Hello World"}
 
+# Get All Application
 @app.get("/applicant")
 def read_api(db: Session = Depends(get_db)):
     return db.query(models.Applicant).all()
 
+# Get 1 Application
 @app.get("/applicant/{applicant_id}")
 def get_application (applicant_id:int, db:Session = Depends(get_db)):
     applicant_model = db.query(models.Applicant).filter(models.Applicant.id == applicant_id).first()
@@ -58,6 +60,7 @@ def get_application (applicant_id:int, db:Session = Depends(get_db)):
     
     return applicant_model
 
+# Create
 @app.post("/create")
 def create_application(applicant: Applicant,db: Session = Depends(get_db)):
     applicant_model = models.Applicant()
@@ -69,7 +72,8 @@ def create_application(applicant: Applicant,db: Session = Depends(get_db)):
     
     db.add(applicant_model)
     db.commit()
-    
+
+# Edit  
 @app.put("/applicant/{applicant_id}")
 def update_application(applicant_id:int, applicant:Applicant,db:Session = Depends(get_db)):
     applicant_model = db.query(models.Applicant).filter(models.Applicant.id == applicant_id).first()
@@ -88,6 +92,7 @@ def update_application(applicant_id:int, applicant:Applicant,db:Session = Depend
     
     return applicant
 
+# Delete
 @app.delete("/applicant/{applicant_id}")
 def delete_application (applicant_id:int, db:Session = Depends(get_db)):
     applicant_model = db.query(models.Applicant).filter(models.Applicant.id == applicant_id).first()
@@ -101,6 +106,7 @@ def delete_application (applicant_id:int, db:Session = Depends(get_db)):
     db.query(models.Applicant).filter(models.Applicant.id == applicant_id).delete()
     db.commit()
 
+# Export all applications
 @app.get("/export/applicants")
 def export_applicants(db: Session = Depends(get_db)):
     applicant_model = db.query(models.Applicant).all()
@@ -123,6 +129,7 @@ def export_applicants(db: Session = Depends(get_db)):
 
     return response
 
+# Export 1 application
 @app.get("/export/applicants/{applicant_id}")
 def export_applicants_id(applicant_id:int, db:Session = Depends(get_db)):
     applicant_model = db.query(models.Applicant).filter(models.Applicant.id == applicant_id).first()
