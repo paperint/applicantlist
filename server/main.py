@@ -143,7 +143,7 @@ def export_applicants_id(applicant_id:int, db:Session = Depends(get_db)):
     csv_data = output.getvalue()
 
     response = Response(content=csv_data)
-    response.headers["Content-Disposition"] = "attachment; filename=applicants.csv"
+    response.headers["Content-Disposition"] = f"attachment; filename={applicant_model.firstname}.csv"
     response.headers["Content-Type"] = "text/csv"
 
     return response
